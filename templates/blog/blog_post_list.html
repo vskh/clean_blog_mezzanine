@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load i18n future mezzanine_tags blog_tags keyword_tags disqus_tags %}
+{% block meta_title %}{% if page %}{{ page.meta_title }}{% else %}{% trans "Blog" %}{% endif %}{% endblock %}
+
+{% block meta_keywords %}{% metablock %}
+{% keywords_for page as keywords %}
+{% for keyword in keywords %}
+    {% if not forloop.first %}, {% endif %}
+    {{ keyword }}
+{% endfor %}
+{% endmetablock %}{% endblock %}
+
+{% block meta_description %}{% metablock %}
+{{ page.description }}
+{% endmetablock %}{% endblock %}
+
+{% block main %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            {% for blog_post in blog_posts.object_list %}
+            {% block blog_post_main %}
+            <article>
+            <div class="post-preview">
+                <a href="post.html">
+                    <h2 class="post-title">
+                        {% block blog_post_list_post_title %}
+                        {% editable blog_post.title %}
+                        <a href="{{ blog_post.get_absolute_url }}">{{ blog_post.title }}</a>
+                        {% endeditable %}
+                        {% endblock %}
+                    </h2>
+                    <h3 class="post-subtitle">
+                        Problems look mighty small from 150 miles up
+                    </h3>
+                </a>
+                <p class="post-meta">Posted{% if author %} by <a href="{% url "blog_post_list_author" author %}">{{ author.get_full_name|default:author.username }}</a>{% endif %} on {{ blog_post.publish_date }}</p>
+            </div>
+            </article>
+            {% endblock %}
+            <hr>
+            {% endfor %}
+            <!-- Pager -->
+            <ul class="pager">
+                <li class="next">
+                    <a href="#">Older Posts &rarr;</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
