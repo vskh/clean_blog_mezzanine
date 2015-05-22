@@ -8,3 +8,4 @@ $ cd <your-project-dir>
 $ git clone https://github.com/vskh/clean_blog_mezzanine.git
 $ cat settings.py | sed 's/INSTALLED_APPS\s*=\s*(/INSTALLED_APPS = (\n"clean_blog_mezzanine",/' > settings.py.patched && mv settings.py.patched settings.py
 ```
+# Warning: W I P
